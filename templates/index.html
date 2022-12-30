@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+ <div class="backgnd">
+ <div>
+
+	</div>
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}"method="post" enctype="multipart/form-data">
+      <input type="file" name="butterfly" class=btrfly placeholder="butterfly name" required="required" onchange="readURL(this);" />
+      {% if image %}
+      <img id="blah" src="data:image/jpeg;base64,{{ image }}" class="img-upload"/>
+      {% else %}
+      <img id="blah" class="img" hidden/>
+      {% endif %}
+            <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+
+   <br>
+   <br>
+         {{prediction_text}}
+   </div>
+ </div>
+
+
+</body>
+<script>
+function readURL(input) {
+            var img = document.querySelectorAll(".img")
+            if(img.length != 0){
+              img[0].hidden = false;
+            }
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+</script>
+</html>
